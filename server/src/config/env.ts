@@ -31,10 +31,15 @@ const envSchema = z.object({
   OTP_RESEND_COOLDOWN_SECONDS: numberWithDefault(60),
 
   // Email (ADR-0009)
-  EMAIL_HOST: z.preprocess(emptyToUndefined, z.string().default('smtp.gmail.com')),
+  // Email (ADR-0009)
+  EMAIL_HOST: z.preprocess(
+    emptyToUndefined,
+    z.string().default('smtp.gmail.com')
+  ),
   EMAIL_PORT: numberWithDefault(465),
   EMAIL_USER: z.string().min(1, 'is required'),
   EMAIL_PASS: z.string().min(1, 'is required'),
+  EMAIL_FROM: optionalString,
   CONTACT_EMAIL: optionalString,
 
   EVENT_NAME: z.preprocess(emptyToUndefined, z.string().default('Code-a-Nova Hackathon')),
@@ -68,7 +73,8 @@ export const config = {
   emailPort: env.EMAIL_PORT,
   emailUser: env.EMAIL_USER,
   emailPass: env.EMAIL_PASS,
-  emailSenderName: 'Code-a-Nova', // fixed on purpose: never a personal name
+  emailFrom: env.EMAIL_FROM ?? env.EMAIL_USER,
+  emailSenderName: 'Code-a-Nova',
   contactEmail: env.CONTACT_EMAIL ?? env.EMAIL_USER,
 
   eventName: env.EVENT_NAME,
