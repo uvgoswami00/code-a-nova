@@ -27,7 +27,10 @@ function getTransporter(): Transporter {
   return transporter;
 }
 
-const from = () => ({ name: config.emailSenderName, address: config.emailUser });
+const from = () => ({
+  name: config.emailSenderName,
+  address: config.emailFrom,
+});
 
 // Shared HTML shell so every email looks consistent.
 const layout = (title: string, bodyHtml: string): string => `
